@@ -2,6 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	ofBackground(255,255,255);
+	ofSetFrameRate(60);
+
 
 }
 
@@ -11,7 +14,27 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw(){  
+
+	ofPushMatrix();
+		ofTranslate(100,300,0);
+		ofSetHexColor(0xff2220);
+		ofFill();
+		ofSetPolyMode(OF_POLY_WINDING_ODD);
+		ofBeginShape();
+		float angleStep 	= TWO_PI/(100.0f + sin(ofGetElapsedTimef()/5.0f) * 60);
+		float radiusAdder 	= 0.5f;
+		float radius 		= 0;
+		for (int i = 0; i < 200; i++){
+			float anglef = (i) * angleStep;
+			float x = radius * cos(anglef);
+			float y = radius * sin(anglef);
+			ofVertex(x,y);
+			radius 	+= radiusAdder;
+		}
+		ofEndShape(OF_CLOSE);
+	ofPopMatrix();
+
 
 }
 
