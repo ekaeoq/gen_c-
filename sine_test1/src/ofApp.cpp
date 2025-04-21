@@ -16,7 +16,6 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){  
 
-	ofPushMatrix();
 		ofTranslate(100,300,0);
 		ofSetHexColor(0xff2220);
 		ofFill();
@@ -33,7 +32,6 @@ void ofApp::draw(){
 			radius 	+= radiusAdder;
 		}
 		ofEndShape(OF_CLOSE);
-	ofPopMatrix();
 
 
 }
