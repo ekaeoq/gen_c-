@@ -1,5 +1,5 @@
 obj/osx/Release/src/main.o: \
-  /Users/ekaeo/of_v0.12.0_osx_release/apps/myApps/heh_I_first/src/main.cpp \
+  /Users/ekaeo/of_v0.12.0_osx_release/apps/gen_c-/heh_I_first/src/main.cpp \
   ../../../libs/openFrameworks/ofMain.h \
   ../../../libs/openFrameworks/utils/ofConstants.h \
   ../../../libs/glew/include/GL/glew.h \
@@ -428,7 +428,7 @@ obj/osx/Release/src/main.o: \
   ../../../libs/openFrameworks/3d/of3dUtils.h \
   ../../../libs/openFrameworks/3d/ofCamera.h \
   ../../../libs/openFrameworks/3d/ofEasyCam.h \
-  /Users/ekaeo/of_v0.12.0_osx_release/apps/myApps/heh_I_first/src/ofApp.h
+  /Users/ekaeo/of_v0.12.0_osx_release/apps/gen_c-/heh_I_first/src/ofApp.h
 ../../../libs/openFrameworks/ofMain.h:
 ../../../libs/openFrameworks/utils/ofConstants.h:
 ../../../libs/glew/include/GL/glew.h:
@@ -857,4 +857,4 @@ obj/osx/Release/src/main.o: \
 ../../../libs/openFrameworks/3d/of3dUtils.h:
 ../../../libs/openFrameworks/3d/ofCamera.h:
 ../../../libs/openFrameworks/3d/ofEasyCam.h:
-/Users/ekaeo/of_v0.12.0_osx_release/apps/myApps/heh_I_first/src/ofApp.h:
+/Users/ekaeo/of_v0.12.0_osx_release/apps/gen_c-/heh_I_first/src/ofApp.h:
