@@ -21,6 +21,9 @@ public:
     void windowResized(int w, int h) override;
     void dragEvent(ofDragInfo dragInfo) override;
     void gotMessage(ofMessage msg) override;
+	ofImage formulaPart1;
+    ofImage formulaPart2;
+    ofImage formulaFull;
 
 private:
     float animationTime;    
