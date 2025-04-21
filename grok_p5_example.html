@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limit Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        #formula {
+            margin: 20px;
+            font-size: 1.2em;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="formula"></div>
+    <script>
+        // p5.js sketch
+        let animationTime = 0;
+        let minX = -2;
+        let maxX = 2;
+        let axisY;
+
+        function setup() {
+            createCanvas(800, 400);
+            axisY = height / 2;
+            frameRate(60);
+        }
+
+        function draw() {
+            background(255);
+            animationTime += deltaTime / 1000; // deltaTime in ms, convert to seconds
+
+            // Stage 1: Draw x-axis (0 to 3 seconds)
+            if (animationTime < 3) {
+                let alpha = (animationTime / 3) * 255;
+                stroke(0, alpha);
+                let length = (animationTime / 3) * width;
+                line(0, axisY, length, axisY);
+            } else {
+                stroke(0);
+                line(0, axisY, width, axisY);
+
+                // Stage 2: Tick marks (3 to 5 seconds)
+                let tickTime = animationTime - 3;
+                if (tickTime < 2) {
+                    let alpha = (tickTime / 2) * 255;
+                    stroke(0, alpha);
+                    for (let xVal = -2; xVal <= 2; xVal += 1) {
+                        let screenX = map(xVal, minX, maxX, 0, width);
+                        line(screenX, axisY - 10, screenX, axisY + 10);
+                    }
+                } else {
+                    stroke(0);
+                    for (let xVal = -2; xVal <= 2; xVal += 1) {
+                        let screenX = map(xVal, minX, maxX, 0, width);
+                        line(screenX, axisY - 10, screenX, axisY + 10);
+                    }
+
+                    // Stage 3: Points (5 seconds onward)
+                    let pointTime = animationTime - 5;
+                    let numPoints = Math.min(20, Math.floor(pointTime / 0.3));
+                    for (let n = 1; n <= numPoints; n++) {
+                        let x = 1 / n;
+                        let screenX = map(x, minX, maxX, 0, width);
+                        let pointAlpha = Math.min(255, (pointTime - (n - 1) * 0.3) / 0.6 * 255);
+                        fill(255, 0, 0, pointAlpha);
+                        noStroke();
+                        circle(screenX, axisY - 15, 10);
+                    }
+
+                    // Stage 4: Epsilon interval (after 5 points, t=6.5s)
+                    if (numPoints >= 5) {
+                        let epsilonTime = animationTime - 6.5;
+                        let epsilon = 0.2;
+                        let left = map(-epsilon, minX, maxX, 0, width);
+                        let right = map(epsilon, minX, maxX, 0, width);
+                        let epsilonAlpha = Math.min(255, epsilonTime / 1.5 * 255);
+
+                        // Epsilon fill
+                        fill(0, 0, 255, epsilonAlpha * 0.2);
+                        noStroke();
+                        rect(left, axisY - 20, right - left, 40);
+
+                        // Epsilon outline
+                        noFill();
+                        stroke(0, 0, 255, epsilonAlpha);
+                        rect(left, axisY - 20, right - left, 40);
+
+                        // Redraw points, coloring those within epsilon green
+                        for (let n = 1; n <= numPoints; n++) {
+                            let x = 1 / n;
+                            let screenX = map(x, minX, maxX, 0, width);
+                            let pointAlpha = Math.min(255, (pointTime - (n - 1) * 0.3) / 0.6 * 255);
+                            fill(x < epsilon ? [0, 255, 0, pointAlpha] : [255, 0, 0, pointAlpha]);
+                            noStroke();
+                            circle(screenX, axisY - 15, 10);
+                        }
+                    }
+                }
+            }
+
+            // Formula display
+            let formulaDiv = select('#formula');
+            if (animationTime >= 5) {
+                let formulaAlpha1 = Math.min(1, (animationTime - 5) / 1.5);
+                formulaDiv.style('opacity', formulaAlpha1);
+                formulaDiv.html('\\( a = \\lim_{n \\to \\infty} a_n \\)');
+                if (animationTime >= 6.5) {
+                    let formulaAlpha2 = Math.min(1, (animationTime - 6.5) / 1.5);
+                    formulaDiv.style('opacity', formulaAlpha2);
+                    formulaDiv.html('\\( a = \\lim_{n \\to \\infty} a_n \\iff \\forall \\epsilon > 0 \\)');
+                    if (animationTime >= 8) {
+                        let formulaAlpha3 = Math.min(1, (animationTime - 8) / 1.5);
+                        formulaDiv.style('opacity', formulaAlpha3);
+                        formulaDiv.html('\\( a = \\lim_{n \\to \\infty} a_n \\iff \\forall \\epsilon > 0, \\exists n_0 \\in \\mathbb{N} : (n > n_0 \\Rightarrow |a_n - a| < \\epsilon) \\)');
+                    }
+                }
+            }
+            MathJax.typeset(); // Re-render MathJax
+        }
+    </script>
+</body>
+</html>
